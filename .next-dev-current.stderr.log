@@ -1,0 +1,312 @@
+[browser] Cannot render a sync or defer <script> outside the main document without knowing its order. Try adding async="" or moving it into the root <head> tag. 
+[browser] In HTML, <script> cannot be a child of <html>.
+This will cause a hydration error.
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+>                       <html lang="ar" dir="rtl" suppressHydrationWarning={true}>
+                          <body>
+                          <Script id="theme-init" strategy="beforeInte...">
+>                           <script nonce={undefined} dangerouslySetInnerHTML={{__html:"(self.__ne..."}}>
+                  ...
+ 
+[browser] <html> cannot contain a nested <script>.
+See this log for the ancestor stack trace. 
+[browser] Image with src "https://desperate-treat-columnists-request.trycloudflare.com/logo/logo-full.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+⨯ ./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/Navbar'
+  [90m4 |[0m [36mimport[0m [33mFooter[0m [36mfrom[0m [32m"@/components/Footer"[0m;
+  [90m5 |[0m [36mimport[0m [33mHero[0m [36mfrom[0m [32m"@/components/Hero"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m [33mNavbar[0m [36mfrom[0m [32m"@/components/Navbar"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m [33mPrograms[0m [36mfrom[0m [32m"@/components/Programs"[0m;
+  [90m8 |[0m [36mimport[0m [33mProfessionalCourse[0m [36mfrom[0m [32m"@/components/ProfessionalCourse"[0m;
+  [90m9 |[0m [36mimport[0m [33mPublications[0m [36mfrom[0m [32m"@/components/Publications"[0m;
+
+Import map: aliased to relative './src/components/Navbar' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/Navbar'
+  [90m4 |[0m [36mimport[0m [33mFooter[0m [36mfrom[0m [32m"@/components/Footer"[0m;
+  [90m5 |[0m [36mimport[0m [33mHero[0m [36mfrom[0m [32m"@/components/Hero"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m [33mNavbar[0m [36mfrom[0m [32m"@/components/Navbar"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m [33mPrograms[0m [36mfrom[0m [32m"@/components/Programs"[0m;
+  [90m8 |[0m [36mimport[0m [33mProfessionalCourse[0m [36mfrom[0m [32m"@/components/ProfessionalCourse"[0m;
+  [90m9 |[0m [36mimport[0m [33mPublications[0m [36mfrom[0m [32m"@/components/Publications"[0m;
+
+Import map: aliased to relative './src/components/Navbar' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/Navbar'
+  [90m4 |[0m [36mimport[0m [33mFooter[0m [36mfrom[0m [32m"@/components/Footer"[0m;
+  [90m5 |[0m [36mimport[0m [33mHero[0m [36mfrom[0m [32m"@/components/Hero"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m [33mNavbar[0m [36mfrom[0m [32m"@/components/Navbar"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m [33mPrograms[0m [36mfrom[0m [32m"@/components/Programs"[0m;
+  [90m8 |[0m [36mimport[0m [33mProfessionalCourse[0m [36mfrom[0m [32m"@/components/ProfessionalCourse"[0m;
+  [90m9 |[0m [36mimport[0m [33mPublications[0m [36mfrom[0m [32m"@/components/Publications"[0m;
+
+Import map: aliased to relative './src/components/Navbar' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/Navbar'
+  [90m4 |[0m [36mimport[0m [33mFooter[0m [36mfrom[0m [32m"@/components/Footer"[0m;
+  [90m5 |[0m [36mimport[0m [33mHero[0m [36mfrom[0m [32m"@/components/Hero"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m [33mNavbar[0m [36mfrom[0m [32m"@/components/Navbar"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m [33mPrograms[0m [36mfrom[0m [32m"@/components/Programs"[0m;
+  [90m8 |[0m [36mimport[0m [33mProfessionalCourse[0m [36mfrom[0m [32m"@/components/ProfessionalCourse"[0m;
+  [90m9 |[0m [36mimport[0m [33mPublications[0m [36mfrom[0m [32m"@/components/Publications"[0m;
+
+Import map: aliased to relative './src/components/Navbar' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/Navbar'
+  [90m4 |[0m [36mimport[0m [33mFooter[0m [36mfrom[0m [32m"@/components/Footer"[0m;
+  [90m5 |[0m [36mimport[0m [33mHero[0m [36mfrom[0m [32m"@/components/Hero"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m [33mNavbar[0m [36mfrom[0m [32m"@/components/Navbar"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m [33mPrograms[0m [36mfrom[0m [32m"@/components/Programs"[0m;
+  [90m8 |[0m [36mimport[0m [33mProfessionalCourse[0m [36mfrom[0m [32m"@/components/ProfessionalCourse"[0m;
+  [90m9 |[0m [36mimport[0m [33mPublications[0m [36mfrom[0m [32m"@/components/Publications"[0m;
+
+Import map: aliased to relative './src/components/Navbar' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/Navbar'
+  [90m4 |[0m [36mimport[0m [33mFooter[0m [36mfrom[0m [32m"@/components/Footer"[0m;
+  [90m5 |[0m [36mimport[0m [33mHero[0m [36mfrom[0m [32m"@/components/Hero"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m [33mNavbar[0m [36mfrom[0m [32m"@/components/Navbar"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m [33mPrograms[0m [36mfrom[0m [32m"@/components/Programs"[0m;
+  [90m8 |[0m [36mimport[0m [33mProfessionalCourse[0m [36mfrom[0m [32m"@/components/ProfessionalCourse"[0m;
+  [90m9 |[0m [36mimport[0m [33mPublications[0m [36mfrom[0m [32m"@/components/Publications"[0m;
+
+Import map: aliased to relative './src/components/Navbar' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/Navbar'
+  [90m4 |[0m [36mimport[0m [33mFooter[0m [36mfrom[0m [32m"@/components/Footer"[0m;
+  [90m5 |[0m [36mimport[0m [33mHero[0m [36mfrom[0m [32m"@/components/Hero"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m [33mNavbar[0m [36mfrom[0m [32m"@/components/Navbar"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m [33mPrograms[0m [36mfrom[0m [32m"@/components/Programs"[0m;
+  [90m8 |[0m [36mimport[0m [33mProfessionalCourse[0m [36mfrom[0m [32m"@/components/ProfessionalCourse"[0m;
+  [90m9 |[0m [36mimport[0m [33mPublications[0m [36mfrom[0m [32m"@/components/Publications"[0m;
+
+Import map: aliased to relative './src/components/Navbar' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[browser] ./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/Navbar'
+  4 | import Footer from "@/components/Footer";
+  5 | import Hero from "@/components/Hero";
+> 6 | import Navbar from "@/components/Navbar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import Programs from "@/components/Programs";
+  8 | import ProfessionalCourse from "@/components/ProfessionalCourse";
+  9 | import Publications from "@/components/Publications";
+
+Import map: aliased to relative './src/components/Navbar' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/Navbar'
+  4 | import Footer from "@/components/Footer";
+  5 | import Hero from "@/components/Hero";
+> 6 | import Navbar from "@/components/Navbar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import Programs from "@/components/Programs";
+  8 | import ProfessionalCourse from "@/components/ProfessionalCourse";
+  9 | import Publications from "@/components/Publications";
+
+Import map: aliased to relative './src/components/Navbar' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] Cannot render a sync or defer <script> outside the main document without knowing its order. Try adding async="" or moving it into the root <head> tag. 
+[browser] In HTML, <script> cannot be a child of <html>.
+This will cause a hydration error.
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+>                       <html lang="ar" dir="rtl" suppressHydrationWarning={true}>
+                          <body>
+                          <Script id="theme-init" strategy="beforeInte...">
+>                           <script nonce={undefined} dangerouslySetInnerHTML={{__html:"(self.__ne..."}}>
+                  ...
+ 
+[browser] <html> cannot contain a nested <script>.
+See this log for the ancestor stack trace. 
+[browser] Image with src "https://desperate-treat-columnists-request.trycloudflare.com/logo/logo-full.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[browser] Cannot render a sync or defer <script> outside the main document without knowing its order. Try adding async="" or moving it into the root <head> tag. 
+[browser] In HTML, <script> cannot be a child of <html>.
+This will cause a hydration error.
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/admin/login" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+>                       <html lang="ar" dir="rtl" suppressHydrationWarning={true}>
+                          <body>
+                          <Script id="theme-init" strategy="beforeInte...">
+>                           <script nonce={undefined} dangerouslySetInnerHTML={{__html:"(self.__ne..."}}>
+                  ...
+ 
+[browser] <html> cannot contain a nested <script>.
+See this log for the ancestor stack trace. 
+[browser] ./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/Navbar'
+  4 | import Footer from "@/components/Footer";
+  5 | import Hero from "@/components/Hero";
+> 6 | import Navbar from "@/components/Navbar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import Programs from "@/components/Programs";
+  8 | import ProfessionalCourse from "@/components/ProfessionalCourse";
+  9 | import Publications from "@/components/Publications";
+
+Import map: aliased to relative './src/components/Navbar' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/Navbar'
+  4 | import Footer from "@/components/Footer";
+  5 | import Hero from "@/components/Hero";
+> 6 | import Navbar from "@/components/Navbar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import Programs from "@/components/Programs";
+  8 | import ProfessionalCourse from "@/components/ProfessionalCourse";
+  9 | import Publications from "@/components/Publications";
+
+Import map: aliased to relative './src/components/Navbar' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] Cannot render a sync or defer <script> outside the main document without knowing its order. Try adding async="" or moving it into the root <head> tag. 
+[browser] In HTML, <script> cannot be a child of <html>.
+This will cause a hydration error.
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+>                       <html lang="ar" dir="rtl" suppressHydrationWarning={true}>
+                          <body>
+                          <Script id="theme-init" strategy="beforeInte...">
+>                           <script nonce={undefined} dangerouslySetInnerHTML={{__html:"(self.__ne..."}}>
+                  ...
+ 
+[browser] <html> cannot contain a nested <script>.
+See this log for the ancestor stack trace. 
+[browser] Image with src "http://localhost:3000/logo/logo-full.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[browser] Cannot render a sync or defer <script> outside the main document without knowing its order. Try adding async="" or moving it into the root <head> tag. 
+[browser] In HTML, <script> cannot be a child of <html>.
+This will cause a hydration error.
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/admin/login" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+>                       <html lang="ar" dir="rtl" suppressHydrationWarning={true}>
+                          <body>
+                          <Script id="theme-init" strategy="beforeInte...">
+>                           <script nonce={undefined} dangerouslySetInnerHTML={{__html:"(self.__ne..."}}>
+                  ...
+ 
+[browser] <html> cannot contain a nested <script>.
+See this log for the ancestor stack trace. 

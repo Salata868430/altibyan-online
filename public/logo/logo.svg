@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title" style="color:var(--primary,#1769c2)">
+  <title id="title">شعار التبيان</title>
+  <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 24c9-3 18 0 26 8 8-8 17-11 26-8v25c-9-3-18 0-26 8-8-8-17-11-26-8V24Z"/>
+    <path d="M32 32v25" opacity=".72"/>
+    <path d="M12 31c6-1 11 1 16 5M52 31c-6-1-11 1-16 5" opacity=".48"/>
+  </g>
+  <path d="m32 7 5.2 10.5L32 39l-5.2-21.5L32 7Z" fill="currentColor"/>
+  <path d="m29.3 19.5 2.7 11 2.7-11h-5.4Z" fill="var(--primary-foreground,#fff)" opacity=".82"/>
+  <circle cx="23" cy="12" r="2.5" fill="currentColor"/>
+  <circle cx="41" cy="12" r="2.5" fill="currentColor"/>
+</svg>
