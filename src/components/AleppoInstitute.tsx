@@ -2,9 +2,9 @@ import Image from "next/image";
 import InstituteGallery from "./InstituteGallery";
 
 const stats = [
-  { value: "140+", label: "طالبًا وطالبة", icon: "students", placeholder: true },
-  { value: "5", label: "مدير المعهد + 4 معلمين ومعلمات", icon: "team", image: "/images/teaching-team-illustration.png", imageAlt: "رسم رمزي لفريق تعليم القرآن الكريم", imagePosition: "center" },
-  { value: "حلب", label: "سوريا", icon: "location", image: "/images/aleppo-panorama.jpg", imageAlt: "مشهد بانورامي لمدينة حلب", imagePosition: "center" },
+  { value: "+140", label: "طالبًا وطالبة", icon: "students", image: "/images/halab-students-active.jpeg", imageAlt: "طلاب معهد التبيان يرفعون كتبهم داخل الحلقة", imagePosition: "center 42%", numeric: true },
+  { value: "5", label: "مدير المعهد + 4 معلمين ومعلمات", icon: "team", image: "/images/teaching-team-illustration.png", imageAlt: "رسم رمزي لفريق تعليم القرآن الكريم", imagePosition: "center", numeric: true },
+  { value: "حلب", label: "سوريا", icon: "location", image: "/images/aleppo-citadel-modern.jpg", imageAlt: "قلعة حلب وقت الغروب", imagePosition: "center" },
   { value: "مجانًا", label: "الدراسة بالكامل", icon: "gift", image: "/images/free-education-illustration.png", imageAlt: "رسم رمزي لإتاحة تعليم القرآن مجانًا", imagePosition: "center" },
 ] as const;
 
@@ -26,10 +26,9 @@ export default function AleppoInstitute({ whatsappUrl }: { whatsappUrl: string }
     <section id="aleppo-institute" className="institute-section section-pad" dir="rtl">
       <div className="institute-pattern" aria-hidden="true" />
       <div className="container-page relative">
-        <div className="max-w-4xl">
-          <p className="eyebrow">الدورة الحالية في حلب</p>
-          <h2 className="section-title mt-4">معهد التبيان لتحفيظ القرآن الكريم – حلب</h2>
-          <div className="institute-intro mt-7 space-y-4 text-base leading-8 sm:text-lg sm:leading-9">
+        <div className="institute-hero grid gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-end">
+          <div><p className="eyebrow">الدورة الحالية في حلب</p><h2 className="section-title mt-4">معهد التبيان لتحفيظ القرآن الكريم – حلب</h2></div>
+          <div className="institute-intro rounded-[1.6rem] p-6 text-base leading-8 sm:p-8 sm:text-lg sm:leading-9">
             <p>يُقيم مشروع التبيان معهدًا حضوريًا لتحفيظ القرآن الكريم في مدينة حلب، يشرف عليه الأستاذ خالد أحمد العبدالله بصفته مديرًا ومعلمًا، ويعاونه فريق تعليمي مكوَّن من معلمين ومعلمتين.</p>
             <p>ويضم المعهد حاليًا ما يقارب 140 طالبًا وطالبة، يتلقون تعليم القرآن الكريم وحفظه وتجويده في بيئة تربوية تهدف إلى خدمة كتاب الله وتنشئة جيل مرتبط بالقرآن الكريم.</p>
             <p>وتُقدَّم الدراسة في المعهد مجانًا بالكامل، إيمانًا بأهمية نشر تعليم القرآن الكريم وإتاحته لجميع الطلاب.</p>
@@ -37,16 +36,17 @@ export default function AleppoInstitute({ whatsappUrl }: { whatsappUrl: string }
         </div>
 
         <div className="institute-stats mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-5">
-          {stats.map((stat, index) => <article key={stat.label} className={`institute-stat ${"image" in stat ? "institute-stat-image" : ""} ${"placeholder" in stat ? "institute-stat-placeholder" : ""}`} style={{ "--delay": `${index * 70}ms` } as React.CSSProperties}>
+          {stats.map((stat, index) => <article key={stat.label} className="institute-stat institute-stat-image" style={{ "--delay": `${index * 70}ms` } as React.CSSProperties}>
             {"image" in stat && <Image src={stat.image} alt={stat.imageAlt} fill sizes="(max-width: 1024px) 50vw, 25vw" className="institute-stat-photo" style={{ objectPosition: stat.imagePosition }} />}
             <span className="institute-stat-overlay" aria-hidden="true" />
             <div className="institute-stat-content">
               <span className="institute-stat-icon"><Icon name={stat.icon} /></span>
-              <strong>{stat.value}</strong>
+              <strong className={"numeric" in stat ? "institute-stat-number" : ""} dir={"numeric" in stat ? "ltr" : undefined}>{stat.value}</strong>
               <span>{stat.label}</span>
             </div>
           </article>)}
         </div>
+        <p className="institute-photo-credit mt-3 text-left text-[10px]">صورة قلعة حلب: <a href="https://commons.wikimedia.org/wiki/File:Aleppo_Castle.jpg" target="_blank" rel="noreferrer">Abdallah waleed almnaquel / CC BY-SA 4.0</a></p>
 
         <div className="institute-media mt-16">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">

@@ -34,8 +34,8 @@ export default function InstituteGallery() {
     <>
       <div className="institute-gallery mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {courseImages.length > 0 ? courseImages.map((image, index) => (
-          <button key={image.src} type="button" onClick={() => setSelected(image)} className={`institute-gallery-image ${index === 0 ? "sm:col-span-2 lg:col-span-1" : ""}`} aria-label={`فتح الصورة: ${image.label}`}>
-            <Image src={image.src} alt={image.alt} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+          <button key={image.src} type="button" onClick={() => setSelected(image)} className={`institute-gallery-image ${index % 5 === 0 ? "is-featured" : ""} ${index % 5 === 3 ? "is-tall" : ""}`} aria-label={`فتح الصورة: ${image.label}`}>
+            <Image src={image.src} alt={image.alt} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" loading="lazy" />
             <span>{image.label}</span>
           </button>
         )) : placeholders.map((label, index) => (
