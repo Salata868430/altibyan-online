@@ -186,6 +186,17 @@ button:hover .theme-swatch { transform: scale(1.08); box-shadow: 0 0 0 2px var(-
 .institute-intro, .institute-muted { color: var(--muted); }
 .institute-stat { --delay: 0ms; position: relative; overflow: hidden; min-height: 12.5rem; border: 1px solid var(--border); border-radius: 1.5rem; background: var(--card-surface); padding: clamp(1.1rem, 3vw, 1.65rem); box-shadow: 0 10px 34px rgb(15 23 42 / .055); animation: institute-rise .65s var(--delay) cubic-bezier(.22,1,.36,1) both; }
 .institute-stat::after { content: ""; position: absolute; width: 5rem; height: 5rem; left: -2.5rem; bottom: -2.5rem; border-radius: 999px; background: rgb(var(--primary-rgb) / .09); }
+.institute-stat-content { position: relative; z-index: 2; }
+.institute-stat-photo { z-index: 0; object-fit: cover; transition: transform .55s cubic-bezier(.22,1,.36,1), filter .35s ease; }
+.institute-stat-overlay { position: absolute; z-index: 1; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgb(4 17 39 / .24), rgb(4 17 39 / .9)); opacity: 0; transition: opacity .3s ease; }
+.institute-stat-image { border-color: rgb(var(--primary-rgb) / .3); }
+.institute-stat-image::after { z-index: 1; background: rgb(var(--primary-rgb) / .25); }
+.institute-stat-image .institute-stat-overlay { opacity: 1; }
+.institute-stat-image .institute-stat-icon { border: 1px solid rgb(255 255 255 / .24); background: rgb(255 255 255 / .14); color: #fff; backdrop-filter: blur(8px); }
+.institute-stat-image strong, .institute-stat-image .institute-stat-content > span:last-child { color: #fff; text-shadow: 0 2px 12px rgb(0 0 0 / .4); }
+.institute-stat-charity { background: radial-gradient(circle at 20% 15%, rgb(var(--primary-rgb) / .22), transparent 35%), linear-gradient(145deg, var(--primary-soft), var(--card-surface)); }
+.institute-stat-charity::before { content: ""; position: absolute; width: 8rem; height: 8rem; left: -1.4rem; top: -1.5rem; border: 1.25rem solid rgb(var(--primary-rgb) / .07); border-radius: 999px; }
+.institute-stat-charity .institute-stat-icon { width: 3.4rem; height: 3.4rem; box-shadow: 0 12px 30px rgb(var(--primary-rgb) / .2); }
 .institute-stat-icon { display: grid; width: 3rem; height: 3rem; place-items: center; border-radius: 1rem; background: var(--primary-soft); color: var(--primary); }
 .institute-stat-icon svg { width: 1.5rem; height: 1.5rem; }
 .institute-stat strong { display: block; margin-top: 1.3rem; color: var(--card-title); font-size: clamp(1.6rem, 4vw, 2.25rem); font-weight: 950; }
@@ -207,7 +218,7 @@ button:hover .theme-swatch { transform: scale(1.08); box-shadow: 0 0 0 2px var(-
 .institute-support-primary { background: var(--primary); color: var(--primary-foreground); }
 .institute-support-secondary { border: 1px solid rgb(255 255 255 / .22); background: rgb(255 255 255 / .07); color: var(--on-dark); }
 @keyframes institute-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-@media (hover: hover) { .institute-stat:hover, .institute-media-placeholder:hover { transform: translateY(-5px); border-color: rgb(var(--primary-rgb) / .6); box-shadow: 0 20px 55px rgb(var(--primary-rgb) / .1); } .institute-support-primary:hover, .institute-support-secondary:hover { transform: translateY(-2px); } .institute-support-primary:hover { background: var(--primary-hover); } .institute-support-secondary:hover { border-color: rgb(255 255 255 / .5); background: rgb(255 255 255 / .12); } }
+@media (hover: hover) { .institute-stat:hover, .institute-media-placeholder:hover { transform: translateY(-5px); border-color: rgb(var(--primary-rgb) / .6); box-shadow: 0 20px 55px rgb(var(--primary-rgb) / .1); } .institute-stat-image:hover .institute-stat-photo { transform: scale(1.055); filter: saturate(1.08); } .institute-support-primary:hover, .institute-support-secondary:hover { transform: translateY(-2px); } .institute-support-primary:hover { background: var(--primary-hover); } .institute-support-secondary:hover { border-color: rgb(255 255 255 / .5); background: rgb(255 255 255 / .12); } }
 @media (max-width: 640px) { .institute-stat { min-height: 11rem; border-radius: 1.2rem; } .institute-gallery { grid-template-columns: 1fr; } .institute-media-placeholder { min-height: 14rem; } .institute-support { border-radius: 1.5rem; } }
 
 .payment-section { overflow: hidden; background: radial-gradient(circle at 90% 10%, rgb(var(--primary-rgb) / .1), transparent 30%), var(--surface-secondary); }

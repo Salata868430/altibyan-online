@@ -1,8 +1,10 @@
+import Image from "next/image";
+
 const stats = [
   { value: "140+", label: "طالبًا وطالبة", icon: "students" },
-  { value: "5", label: "مدير المعهد + 4 معلمين ومعلمات", icon: "team" },
-  { value: "حلب", label: "سوريا", icon: "location" },
-  { value: "مجانًا", label: "الدراسة بالكامل", icon: "gift" },
+  { value: "5", label: "مدير المعهد + 4 معلمين ومعلمات", icon: "team", image: "/images/quran-teaching-halab.jpeg", imageAlt: "تعليم القرآن الكريم داخل معهد التبيان في حلب", imagePosition: "center 36%" },
+  { value: "حلب", label: "سوريا", icon: "location", image: "/images/aleppo-panorama.jpg", imageAlt: "مشهد بانورامي لمدينة حلب", imagePosition: "center" },
+  { value: "مجانًا", label: "الدراسة بالكامل", icon: "gift", featuredIcon: true },
 ] as const;
 
 function Icon({ name }: { name: string }) {
@@ -34,10 +36,14 @@ export default function AleppoInstitute({ whatsappUrl }: { whatsappUrl: string }
         </div>
 
         <div className="institute-stats mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-5">
-          {stats.map((stat, index) => <article key={stat.label} className="institute-stat" style={{ "--delay": `${index * 70}ms` } as React.CSSProperties}>
-            <span className="institute-stat-icon"><Icon name={stat.icon} /></span>
-            <strong>{stat.value}</strong>
-            <span>{stat.label}</span>
+          {stats.map((stat, index) => <article key={stat.label} className={`institute-stat ${"image" in stat ? "institute-stat-image" : ""} ${"featuredIcon" in stat ? "institute-stat-charity" : ""}`} style={{ "--delay": `${index * 70}ms` } as React.CSSProperties}>
+            {"image" in stat && <Image src={stat.image} alt={stat.imageAlt} fill sizes="(max-width: 1024px) 50vw, 25vw" className="institute-stat-photo" style={{ objectPosition: stat.imagePosition }} />}
+            <span className="institute-stat-overlay" aria-hidden="true" />
+            <div className="institute-stat-content">
+              <span className="institute-stat-icon"><Icon name={stat.icon} /></span>
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+            </div>
           </article>)}
         </div>
 
