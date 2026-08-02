@@ -4,6 +4,7 @@ export default function Hero({ content, whatsappUrl }: { content: HeroContent; w
   const facts = content.stats.map(({ value, label }) => [value, label]);
   return (
     <section id="home" className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_75%_20%,#123c76_0%,#081d3f_37%,#041127_75%)] text-white">
+      <div className="hero-contrast-overlay absolute inset-0" aria-hidden="true" />
       <div className="islamic-pattern absolute inset-0 opacity-55 [mask-image:linear-gradient(to_bottom,black,transparent_92%)]" aria-hidden="true" />
       <div className="glow-drift absolute -right-40 top-0 size-[38rem] rounded-full bg-blue-500/20 blur-[100px]" aria-hidden="true" />
       <div className="glow-drift absolute -left-48 bottom-0 size-[32rem] rounded-full bg-cyan-300/15 blur-[110px] [animation-delay:-4s]" aria-hidden="true" />

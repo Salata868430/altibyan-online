@@ -1,10 +1,11 @@
 import Image from "next/image";
+import InstituteGallery from "./InstituteGallery";
 
 const stats = [
-  { value: "140+", label: "طالبًا وطالبة", icon: "students" },
-  { value: "5", label: "مدير المعهد + 4 معلمين ومعلمات", icon: "team", image: "/images/quran-teaching-halab.jpeg", imageAlt: "تعليم القرآن الكريم داخل معهد التبيان في حلب", imagePosition: "center 36%" },
+  { value: "140+", label: "طالبًا وطالبة", icon: "students", placeholder: true },
+  { value: "5", label: "مدير المعهد + 4 معلمين ومعلمات", icon: "team", image: "/images/teaching-team-illustration.png", imageAlt: "رسم رمزي لفريق تعليم القرآن الكريم", imagePosition: "center" },
   { value: "حلب", label: "سوريا", icon: "location", image: "/images/aleppo-panorama.jpg", imageAlt: "مشهد بانورامي لمدينة حلب", imagePosition: "center" },
-  { value: "مجانًا", label: "الدراسة بالكامل", icon: "gift", featuredIcon: true },
+  { value: "مجانًا", label: "الدراسة بالكامل", icon: "gift", image: "/images/free-education-illustration.png", imageAlt: "رسم رمزي لإتاحة تعليم القرآن مجانًا", imagePosition: "center" },
 ] as const;
 
 function Icon({ name }: { name: string }) {
@@ -36,7 +37,7 @@ export default function AleppoInstitute({ whatsappUrl }: { whatsappUrl: string }
         </div>
 
         <div className="institute-stats mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-5">
-          {stats.map((stat, index) => <article key={stat.label} className={`institute-stat ${"image" in stat ? "institute-stat-image" : ""} ${"featuredIcon" in stat ? "institute-stat-charity" : ""}`} style={{ "--delay": `${index * 70}ms` } as React.CSSProperties}>
+          {stats.map((stat, index) => <article key={stat.label} className={`institute-stat ${"image" in stat ? "institute-stat-image" : ""} ${"placeholder" in stat ? "institute-stat-placeholder" : ""}`} style={{ "--delay": `${index * 70}ms` } as React.CSSProperties}>
             {"image" in stat && <Image src={stat.image} alt={stat.imageAlt} fill sizes="(max-width: 1024px) 50vw, 25vw" className="institute-stat-photo" style={{ objectPosition: stat.imagePosition }} />}
             <span className="institute-stat-overlay" aria-hidden="true" />
             <div className="institute-stat-content">
@@ -52,11 +53,7 @@ export default function AleppoInstitute({ whatsappUrl }: { whatsappUrl: string }
             <div><p className="eyebrow">من داخل المعهد</p><h3 className="mt-3 text-2xl font-black sm:text-3xl">صور من الدورة الحالية</h3></div>
             <p className="institute-muted max-w-md text-sm leading-7">هذا المعرض جاهز لإضافة صور الطلاب والأنشطة والحلقات التعليمية عند توفرها.</p>
           </div>
-          <div className="institute-gallery mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {["الحلقات القرآنية", "أنشطة الطلاب", "البيئة التعليمية"].map((label, index) => <div key={label} className={`institute-media-placeholder ${index === 0 ? "sm:col-span-2 lg:col-span-1" : ""}`}>
-              <span><Icon name="image" /></span><b>{label}</b><small>ستُضاف الصورة قريبًا</small>
-            </div>)}
-          </div>
+          <InstituteGallery />
         </div>
 
         <div className="institute-video-area mt-10 rounded-[1.75rem] p-6 sm:p-8">
