@@ -1,78 +1,21 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import Script from "next/script";
-import { Alexandria, Readex_Pro } from "next/font/google";
 import "./globals.css";
 
-const alexandria = Alexandria({
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  display: "swap",
-  variable: "--font-alexandria",
-});
-
-const readex = Readex_Pro({
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-  variable: "--font-readex",
-});
-
-
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#050d1a" },
-  ],
-  width: "device-width",
-  initialScale: 1,
-};
-
 export const metadata: Metadata = {
-  title: "التبيان | تعلّم القرآن واللغة العربية بإتقان",
+  title: "التبيان | تعلّم القرآن واللغة العربية",
   description:
-    "منصة تعليمية متخصصة في تأهيل معلّمي القراءة العربية وقراءة القرآن الكريم وإتقان التجويد بإشراف الأستاذ خالد العبداللّه.",
-  keywords: [
-    "القاعدة التبيانية",
-    "التبيان",
-    "تعليم القرآن",
-    "تجويد",
-    "القراءة العربية",
-    "خالد العبدالله",
-    "معهد التبيان حلب",
-  ],
-  authors: [{ name: "الأستاذ خالد العبداللّه" }],
+    "منصة تعليمية متخصصة في تعليم القرآن الكريم والتجويد واللغة العربية والعلوم الشرعية.",
   icons: {
     icon: "/logo/favicon.svg",
-    apple: "/logo/favicon.svg",
-  },
-  openGraph: {
-    title: "التبيان | تعلّم القرآن واللغة العربية بإتقان",
-    description:
-      "تأهيل احترافي لمعلّمي القراءة العربية وقراءة القرآن الكريم من خلال القاعدة التبيانية بإشراف الأستاذ خالد العبداللّه.",
-    url: "https://altibyan.online",
-    siteName: "منصة التبيان التعليمية",
-    locale: "ar_AR",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "التبيان | تعلّم القرآن واللغة العربية بإتقان",
-    description:
-      "تأهيل احترافي لمعلّمي القراءة العربية وقراءة القرآن الكريم من خلال القاعدة التبيانية.",
   },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${alexandria.variable} ${readex.variable}`} suppressHydrationWarning>
-      <body className="antialiased font-sans selection:bg-cyan-500 selection:text-black">
-        {children}
-        <Script id="theme-init" strategy="beforeInteractive">
-          {`(function(){try{var d=document.documentElement,t=localStorage.getItem('altibyan-theme'),a=localStorage.getItem('altibyan-accent');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';if(!['blue','emerald','violet','amber','cyan'].includes(a))a='blue';d.dataset.theme=t;d.dataset.accent=a;d.style.colorScheme=t}catch(e){}})();`}
-        </Script>
-      </body>
+    <html lang="ar" dir="rtl" data-theme="dark" data-accent="blue" suppressHydrationWarning>
+      <body>{children}</body>
+      <Script id="theme-init" strategy="beforeInteractive">{`(function(){try{var d=document.documentElement,t=localStorage.getItem('altibyan-theme'),a=localStorage.getItem('altibyan-accent');if(t!=='light'&&t!=='dark')t='dark';if(!['blue','emerald','violet','amber','cyan'].includes(a))a='blue';d.dataset.theme=t;d.dataset.accent=a;d.style.colorScheme=t}catch(e){}})();`}</Script>
     </html>
   );
 }
-
-

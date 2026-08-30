@@ -18,7 +18,7 @@ const accents: { value: Accent; label: string }[] = [
 ];
 
 function currentMode(): Mode {
-  return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+  return document.documentElement.dataset.theme === "light" ? "light" : "dark";
 }
 
 function currentAccent(): Accent {
@@ -38,7 +38,7 @@ function subscribe(callback: () => void) {
 
 export default function ThemeCustomizer() {
   const [open, setOpen] = useState(false);
-  const mode = useSyncExternalStore(subscribe, currentMode, () => "light" as Mode);
+  const mode = useSyncExternalStore(subscribe, currentMode, () => "dark" as Mode);
   const accent = useSyncExternalStore(subscribe, currentAccent, () => "blue" as Accent);
   const rootRef = useRef<HTMLDivElement>(null);
 
