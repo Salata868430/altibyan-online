@@ -2,70 +2,55 @@ import type { Book } from "@/lib/content";
 
 export default function Publications({ books }: { books: Book[] }) {
   return (
-    <section id="publications" className="section-pad relative overflow-hidden bg-[var(--surface)]">
-      {/* Background ambient lighting */}
-      <div
-        className="absolute -left-20 top-1/2 -z-10 size-96 rounded-full bg-[var(--primary)]/5 blur-3xl"
-        aria-hidden="true"
-      />
-
+    <section id="publications" className="section-pad relative overflow-hidden bg-[var(--surface-secondary)]/60">
       <div className="container-page">
-        {/* Section Header */}
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="eyebrow justify-center">مؤلفات الأستاذ</span>
-          <h2 className="section-title mt-3">سلسلة مناهج التبيان</h2>
+        {/* Header */}
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="eyebrow justify-center">المؤلفات والمناهج التعليمية</span>
+          <h2 className="section-title mt-3">سلسلة كتب ومناهج التبيان</h2>
           <p className="mt-4 text-base font-medium leading-relaxed text-[var(--muted)] sm:text-lg">
-            أربعة مؤلفات منهجية متخصصة في تأسيس القراءة العربية وضبط لفظ القرآن الكريم وإتقان أحكام التجويد.
+            أربعة مؤلفات معتمدة متخصصة في تأسيس القراءة وضبط لفظ القرآن الكريم وأحكام التجويد للطلاب والمعلمين.
           </p>
         </div>
 
-        {/* Books Grid */}
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* 3D Book Showcase Grid */}
+        <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {books.map((book, index) => (
             <article
               key={book.id ?? book.title}
-              className="card-hover-effect group relative flex min-h-[19rem] flex-col justify-between overflow-hidden rounded-[2rem] border border-[var(--border)] bg-[var(--card-surface)] p-7 shadow-sm"
+              className="book-3d-card group relative flex min-h-[22rem] flex-col justify-between overflow-hidden rounded-[2.25rem] border border-[var(--border)] bg-[var(--card-surface)] p-8 shadow-md"
             >
-              {/* Subtle top accent gradient */}
-              <div
-                className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[var(--primary)] via-sky-400 to-[var(--gold)] opacity-80"
-                aria-hidden="true"
-              />
+              {/* Decorative Book Spine */}
+              <div className="book-spine" aria-hidden="true" />
 
-              <div>
-                {/* Header row with Book Icon & Number Badge */}
-                <div className="flex items-center justify-between">
-                  <div className="flex size-12 items-center justify-center rounded-2xl bg-[var(--primary-soft)] text-[var(--primary)] transition-transform duration-300 group-hover:scale-110">
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="size-6"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      aria-hidden="true"
-                    >
-                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-                      <line x1="12" y1="6" x2="16" y2="6" />
-                      <line x1="12" y1="10" x2="16" y2="10" />
-                    </svg>
-                  </div>
-                  <span className="rounded-full bg-[var(--surface-secondary)] px-3 py-1 text-xs font-black tracking-wider text-[var(--primary)]">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
+              {/* Bookmark Ribbon */}
+              <div className="flex items-center justify-between">
+                <span className="flex size-12 items-center justify-center rounded-2xl bg-[var(--dark-panel)] text-sky-300 shadow-md">
+                  <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                  </svg>
+                </span>
+                <span className="rounded-full bg-[var(--surface-secondary)] px-3.5 py-1 text-xs font-black text-[var(--primary)] border border-[var(--border)]">
+                  الكتاب {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
 
-                {/* Book Title */}
-                <h3 className="mt-7 text-lg font-extrabold leading-snug text-[var(--card-title)] transition-colors duration-200 group-hover:text-[var(--primary)]">
+              {/* Book Content */}
+              <div className="my-6">
+                <span className="text-[11px] font-bold text-[var(--primary)] uppercase tracking-wider">
+                  منهاج تدريبي معتمد
+                </span>
+                <h3 className="mt-2.5 text-lg font-black leading-snug text-[var(--card-title)] transition-colors group-hover:text-[var(--primary)] sm:text-xl">
                   {book.title}
                 </h3>
               </div>
 
-              {/* Author & Footer info */}
-              <div className="mt-8 border-t border-[var(--border)]/70 pt-4">
+              {/* Author & Verification Footer */}
+              <div className="border-t border-[var(--border)] pt-4">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[var(--muted)]">تأليف</span>
-                  <span className="font-bold text-[var(--foreground)]">{book.author}</span>
+                  <span className="font-bold text-[var(--muted)]">المؤلف:</span>
+                  <span className="font-black text-[var(--foreground)]">{book.author}</span>
                 </div>
               </div>
             </article>

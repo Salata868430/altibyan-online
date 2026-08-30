@@ -1,15 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import type { ProfessionalContent } from "@/lib/content";
 
 function CheckIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="size-4 shrink-0 text-sky-400"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 24 24" className="size-4.5 shrink-0 text-sky-400" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
       <polyline points="20 6 9 17 4 12" />
     </svg>
   );
@@ -22,196 +18,169 @@ export default function ProfessionalCourse({
   content: ProfessionalContent;
   whatsappUrl: string;
 }) {
-  const stats = [
-    { value: `${content.hours} ساعة`, label: "تدريب مكثف", icon: "⏱" },
-    { value: `${content.fee} دولارًا`, label: "رسوم قبل البدء", icon: "💎" },
-    { value: "Zoom", label: "محاضرات مباشرة", icon: "📹" },
-    { value: "3", label: "امتحانات شفهية", icon: "📝" },
-    { value: "موثقة", label: "شهادة مصدقة", icon: "📜" },
-  ];
+  const [activeTab, setActiveTab] = useState<"teaching" | "exams" | "skills" | "conditions" | "features">("teaching");
+
+  const tabs = [
+    { id: "teaching", label: "نظام التدريس والمحاضرات", icon: "📹" },
+    { id: "exams", label: "الامتحانات وتوزيع الدرجات", icon: "📊" },
+    { id: "skills", label: "المهارات العملية المستهدفة", icon: "🎯" },
+    { id: "conditions", label: "شروط الالتحاق", icon: "📋" },
+    { id: "features", label: "فوائد ومخرجات الدورة", icon: "✨" },
+  ] as const;
 
   return (
     <section
       id="professional-course"
-      className="section-pad relative isolate overflow-hidden bg-[#051128] text-white"
+      className="section-pad relative isolate overflow-hidden bg-[#040b1a] text-white"
     >
-      {/* Background ambient lighting */}
+      {/* Ambient background glows */}
       <div
-        className="absolute -top-32 right-10 -z-10 size-[32rem] rounded-full bg-sky-500/15 blur-[120px]"
+        className="absolute top-1/4 right-0 -z-10 size-[36rem] rounded-full bg-sky-500/15 blur-[140px]"
         aria-hidden="true"
       />
       <div
-        className="absolute -bottom-32 left-10 -z-10 size-[30rem] rounded-full bg-blue-600/15 blur-[120px]"
+        className="absolute bottom-10 left-10 -z-10 size-[32rem] rounded-full bg-blue-600/15 blur-[140px]"
         aria-hidden="true"
       />
 
-      {/* Islamic geometric pattern watermark */}
-      <div
-        className="islamic-pattern absolute inset-0 opacity-30 pointer-events-none"
-        aria-hidden="true"
-      />
+      <div className="islamic-pattern absolute inset-0 opacity-25 pointer-events-none" aria-hidden="true" />
 
       <div className="container-page relative">
         {/* Header */}
-        <div className="max-w-4xl text-right">
-          <span className="eyebrow !text-sky-300">الدورة الرئيسية المعتمدة</span>
-          <h2 className="mt-3 text-2xl font-extrabold leading-snug sm:text-4xl lg:text-5xl text-white">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="eyebrow justify-center !text-sky-300">الدورة التدريبية الرئيسية</span>
+          <h2 className="mt-4 text-2xl font-black leading-snug text-white sm:text-4xl lg:text-5xl text-balance">
             {content.name}
           </h2>
+          <p className="mt-4 text-sm font-bold text-sky-200 sm:text-base">
+            الكتاب المعتمد: {content.book}
+          </p>
         </div>
 
-        {/* Quick Stats Grid */}
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 lg:gap-4">
-          {stats.map((stat) => (
+        {/* 5 Key Metric Capsules */}
+        <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 lg:gap-4">
+          {[
+            { value: `${content.hours} ساعة`, label: "تدريب مكثف", icon: "⏱" },
+            { value: `${content.fee} دولارًا`, label: "رسوم الدورة", icon: "💎" },
+            { value: "Zoom", label: "محاضرات مباشرة", icon: "📹" },
+            { value: "3", label: "امتحانات شفهية", icon: "📝" },
+            { value: "موثقة", label: "شهادة معتمدة", icon: "📜" },
+          ].map((item) => (
             <div
-              key={stat.label}
-              className="pro-stat-tile flex flex-col items-center justify-center rounded-2xl p-4 text-center sm:p-5"
+              key={item.label}
+              className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.05] p-5 text-center backdrop-blur-md transition-all duration-200 hover:border-sky-400/40 hover:bg-white/[0.08]"
             >
-              <span className="text-xl mb-1">{stat.icon}</span>
-              <strong className="text-lg font-black text-sky-300 sm:text-2xl" dir="ltr">
-                {stat.value}
+              <span className="text-2xl mb-1">{item.icon}</span>
+              <strong className="text-xl font-black text-sky-300 sm:text-2xl" dir="ltr">
+                {item.value}
               </strong>
-              <span className="mt-1 text-xs font-semibold text-slate-300">
-                {stat.label}
+              <span className="mt-1 text-xs font-bold text-slate-300">
+                {item.label}
               </span>
             </div>
           ))}
         </div>
 
-        {/* Textbook Highlight Banner */}
-        <div className="mt-8 rounded-2xl border border-sky-400/30 bg-gradient-to-r from-sky-500/15 via-blue-600/15 to-transparent p-6 backdrop-blur-md">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <span className="text-xs font-bold text-sky-300">الكتاب والمنهج المعتمد للدورة</span>
-              <h3 className="mt-1 text-lg font-extrabold text-white sm:text-xl">
-                {content.book}
-              </h3>
-            </div>
-            <span className="self-start sm:self-auto rounded-full bg-sky-400/20 px-3.5 py-1 text-xs font-bold text-sky-200">
-              المستوى الشامل
-            </span>
+        {/* Masterclass Interactive Explorer */}
+        <div className="mt-14 overflow-hidden rounded-[2.5rem] border border-white/15 bg-gradient-to-b from-[#081530]/90 to-[#040e22]/95 p-6 shadow-2xl backdrop-blur-2xl sm:p-10 lg:p-12">
+          {/* Tab Navigation Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-2 border-b border-white/10 pb-6">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 rounded-2xl px-5 py-3 text-xs font-black transition-all duration-200 sm:text-sm ${
+                  activeTab === tab.id
+                    ? "bg-sky-400 text-[#040b1a] shadow-lg shadow-sky-400/25 scale-105"
+                    : "border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                <span>{tab.icon}</span>
+                <span>{tab.label}</span>
+              </button>
+            ))}
           </div>
-        </div>
 
-        {/* Details Grid */}
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
-          {/* Teaching System Card */}
-          <article className="rounded-3xl border border-white/10 bg-white/[0.05] p-7 backdrop-blur-md sm:p-8">
-            <div className="flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-xl bg-sky-400/20 text-sky-300">
-                <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                  <rect x="2" y="3" width="20" height="14" rx="2" />
-                  <line x1="8" y1="21" x2="16" y2="21" />
-                  <line x1="12" y1="17" x2="12" y2="21" />
-                </svg>
-              </span>
-              <h3 className="text-xl font-extrabold text-white">نظام التدريس والمحاضرات</h3>
-            </div>
-            <ul className="mt-6 space-y-3.5">
-              {content.teaching.map((item, idx) => (
-                <li key={`${item}-${idx}`} className="flex items-start gap-3 text-sm font-medium leading-relaxed text-slate-200">
-                  <CheckIcon />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </article>
+          {/* Tab Content Display */}
+          <div className="mt-8">
+            {activeTab === "teaching" && (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in">
+                {content.teaching.map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                    <CheckIcon />
+                    <span className="text-sm font-bold leading-relaxed text-slate-200">{item}</span>
+                  </div>
+                ))}
+              </div>
+            )}
 
-          {/* Exams and Certification Card */}
-          <article className="rounded-3xl border border-white/10 bg-white/[0.05] p-7 backdrop-blur-md sm:p-8">
-            <div className="flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-xl bg-amber-400/20 text-amber-300">
-                <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                  <circle cx="12" cy="8" r="7" />
-                  <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
-                </svg>
-              </span>
-              <h3 className="text-xl font-extrabold text-white">الامتحانات والشهادة</h3>
-            </div>
-            <ul className="mt-6 space-y-3.5">
-              {content.exams.map((item, idx) => (
-                <li key={`${item}-${idx}`} className="flex items-start gap-3 text-sm font-medium leading-relaxed text-slate-200">
-                  <CheckIcon />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </article>
-        </div>
-
-        {/* Benefits, Practical Skills & Requirements */}
-        <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          {/* Course Features / Benefits */}
-          <article className="rounded-3xl border border-white/10 bg-white/[0.05] p-7 backdrop-blur-md sm:p-8">
-            <h3 className="text-xl font-extrabold text-white">فوائد ومخرجات الدورة</h3>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {content.features.map((item, idx) => (
-                <div
-                  key={`${item}-${idx}`}
-                  className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.03] p-3.5 text-xs font-bold leading-relaxed text-slate-200"
-                >
-                  <CheckIcon />
-                  <span>{item}</span>
+            {activeTab === "exams" && (
+              <div className="space-y-4 animate-fade-in">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {content.exams.map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-3.5 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                      <span className="flex size-9 items-center justify-center rounded-xl bg-amber-400/20 font-black text-amber-300">
+                        {idx + 1}
+                      </span>
+                      <span className="text-sm font-extrabold text-slate-100">{item}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </article>
+              </div>
+            )}
 
-          {/* Practical Skills & Admission Conditions */}
-          <div className="space-y-6">
-            {/* Practical Skills Card */}
-            <article className="rounded-3xl border border-sky-400/30 bg-gradient-to-br from-sky-500/20 to-blue-600/10 p-7 backdrop-blur-md sm:p-8">
-              <h3 className="text-xl font-extrabold text-white">المهارات العملية المستهدفة</h3>
-              <ul className="mt-5 grid grid-cols-2 gap-3">
+            {activeTab === "skills" && (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 animate-fade-in">
                 {content.skills.map((skill, idx) => (
-                  <li
-                    key={`${skill}-${idx}`}
-                    className="flex items-center gap-2 rounded-xl bg-sky-400/20 px-3 py-2.5 text-xs font-bold text-sky-100"
-                  >
-                    <span>★</span>
-                    <span>{skill}</span>
-                  </li>
+                  <div key={idx} className="flex flex-col items-center justify-center rounded-2xl border border-sky-400/30 bg-gradient-to-b from-sky-500/15 to-transparent p-6 text-center">
+                    <span className="text-2xl mb-2">★</span>
+                    <strong className="text-base font-black text-white">{skill}</strong>
+                    <span className="mt-1 text-xs text-sky-200">مهارة عملية تدريبية</span>
+                  </div>
                 ))}
-              </ul>
-            </article>
+              </div>
+            )}
 
-            {/* Admission Conditions */}
-            <article className="rounded-3xl border border-white/10 bg-white/[0.05] p-7 backdrop-blur-md sm:p-8">
-              <h3 className="text-xl font-extrabold text-white">شروط الالتحاق</h3>
-              <ul className="mt-4 space-y-2.5">
+            {activeTab === "conditions" && (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in">
                 {content.conditions.map((cond, idx) => (
-                  <li key={`${cond}-${idx}`} className="flex items-start gap-2.5 text-xs font-medium text-slate-300">
-                    <span className="mt-1 size-1.5 shrink-0 rounded-full bg-sky-400" />
-                    <span>{cond}</span>
-                  </li>
+                  <div key={idx} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                    <span className="mt-1 size-2 shrink-0 rounded-full bg-sky-400" />
+                    <span className="text-sm font-bold leading-relaxed text-slate-200">{cond}</span>
+                  </div>
                 ))}
-              </ul>
-            </article>
-          </div>
-        </div>
+              </div>
+            )}
 
-        {/* WhatsApp Registration CTA Button */}
-        <div className="mt-12 flex justify-center">
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="primary-button group flex items-center gap-3 rounded-2xl px-9 py-4 text-center text-sm font-extrabold tracking-wide"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              className="size-5 shrink-0 transition-transform duration-200 group-hover:scale-110"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden="true"
+            {activeTab === "features" && (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in">
+                {content.features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4.5">
+                    <CheckIcon />
+                    <span className="text-xs font-extrabold leading-relaxed text-slate-200 sm:text-sm">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Bottom Call to Action */}
+          <div className="mt-12 flex flex-col items-center justify-center gap-4 border-t border-white/10 pt-8 sm:flex-row">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-primary-luxury group flex items-center justify-center gap-3 rounded-2xl px-9 py-4 text-center text-sm font-black tracking-wide"
             >
-              <path d="M20 11.5a8.3 8.3 0 0 1-12.3 7.3L4 20l1.3-4.5A8.3 8.3 0 1 1 20 11.5Z" />
-              <path d="M9 10c.5 2 2.5 3.5 4 4" />
-            </svg>
-            <span>سجّل الآن في الدورة الاحترافية عبر واتساب</span>
-            <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
-          </a>
+              <svg viewBox="0 0 24 24" className="size-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+                <path d="M20 11.5a8.3 8.3 0 0 1-12.3 7.3L4 20l1.3-4.5A8.3 8.3 0 1 1 20 11.5Z" />
+                <path d="M9 10c.5 2 2.5 3.5 4 4" />
+              </svg>
+              <span>سجّل الآن في الدورة الاحترافية عبر واتساب</span>
+              <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>

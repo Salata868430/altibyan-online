@@ -34,7 +34,7 @@ export default function Navbar({ links, settings }: NavbarProps) {
 
   useEffect(() => {
     function handleScroll() {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 25);
     }
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -70,17 +70,17 @@ export default function Navbar({ links, settings }: NavbarProps) {
   return (
     <header
       ref={navbarRef}
-      className={`site-navbar sticky top-0 z-[9999] border-b transition-all duration-300 ${
+      className={`fixed top-0 inset-x-0 z-[9999] transition-all duration-300 ${
         scrolled
-          ? "border-[var(--border)]/80 py-2.5 shadow-lg backdrop-blur-2xl"
-          : "border-transparent py-4 backdrop-blur-xl"
+          ? "bg-[var(--nav-background)]/90 py-3 shadow-xl backdrop-blur-2xl border-b border-[var(--border)]"
+          : "bg-transparent py-5"
       }`}
     >
       <div className="container-page flex items-center justify-between gap-4">
-        {/* Brand Logo */}
+        {/* Brand Logo with ambient ring */}
         <a
           href="#home"
-          className="group flex shrink-0 items-center gap-3 transition-transform duration-200 hover:scale-[1.02]"
+          className="group flex items-center gap-3.5 transition-transform duration-200 hover:scale-105"
           aria-label={`${settings.site_name} - الرئيسية`}
         >
           <div className="relative flex items-center">
@@ -93,18 +93,18 @@ export default function Navbar({ links, settings }: NavbarProps) {
               unoptimized={Boolean(
                 settings.logo_url && settings.logo_url.startsWith("http"),
               )}
-              className="h-10 w-auto max-w-[10rem] object-contain sm:h-11 drop-shadow-sm"
+              className="h-10 w-auto max-w-[10rem] object-contain sm:h-11 drop-shadow-md"
             />
           </div>
         </a>
 
-        {/* Desktop Navigation Links */}
+        {/* Floating Desktop Menu Bar */}
         <nav aria-label="التنقل الرئيسي" className="hidden lg:block">
-          <ul className="flex items-center gap-1 rounded-full border border-[var(--border)]/70 bg-[var(--surface)]/70 px-4 py-1.5 shadow-sm backdrop-blur-md xl:gap-2">
+          <ul className="flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--surface)]/80 p-1.5 shadow-lg backdrop-blur-xl">
             {links.map((link) => (
               <li key={`${link.href}-${link.label}`}>
                 <a
-                  className="nav-link relative block rounded-full px-3.5 py-1.5 text-[13.5px] font-semibold tracking-wide transition-colors"
+                  className="relative block rounded-full px-4 py-2 text-xs font-extrabold tracking-wide text-[var(--foreground)] transition-all duration-200 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
                   href={link.href}
                 >
                   {link.label}
@@ -114,13 +114,14 @@ export default function Navbar({ links, settings }: NavbarProps) {
           </ul>
         </nav>
 
-        {/* Right Actions (Theme, Admin, WhatsApp CTA, Mobile Toggle) */}
+        {/* Actions & Tools */}
         <div className="flex items-center gap-2.5 sm:gap-3">
           <ThemeCustomizer />
 
+          {/* Admin link */}
           <a
             href={adminHref}
-            className="admin-navbar-link hidden items-center gap-2 rounded-xl border px-3.5 py-2 text-xs font-bold transition-all duration-200 lg:inline-flex"
+            className="hidden items-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2 text-xs font-bold text-[var(--foreground)] shadow-sm transition-all duration-200 hover:border-[var(--primary)] hover:text-[var(--primary)] lg:inline-flex"
             title={adminLabel}
           >
             <svg
@@ -128,28 +129,27 @@ export default function Navbar({ links, settings }: NavbarProps) {
               className="size-3.5 shrink-0 opacity-80"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.2"
               aria-hidden="true"
             >
-              <path d="M7 10V8a5 5 0 0 1 10 0v2" />
-              <rect x="5" y="10" width="14" height="10" rx="2" />
-              <path d="M12 14v2" />
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
             <span>{adminLabel}</span>
           </a>
 
+          {/* WhatsApp CTA Button */}
           <a
             href={settings.whatsapp_url}
             target="_blank"
             rel="noreferrer"
-            className="primary-button hidden items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-bold tracking-wide sm:inline-flex"
+            className="btn-primary-luxury hidden items-center gap-2 rounded-2xl px-5 py-2.5 text-xs font-black sm:inline-flex"
           >
             <svg
               viewBox="0 0 24 24"
               className="size-4 shrink-0"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.2"
               aria-hidden="true"
             >
               <path d="M20 11.5a8.3 8.3 0 0 1-12.3 7.3L4 20l1.3-4.5A8.3 8.3 0 1 1 20 11.5Z" />
@@ -158,7 +158,7 @@ export default function Navbar({ links, settings }: NavbarProps) {
             <span>سجّل الآن</span>
           </a>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Toggle Button */}
           <button
             ref={menuButtonRef}
             type="button"
@@ -166,31 +166,17 @@ export default function Navbar({ links, settings }: NavbarProps) {
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
             aria-label={mobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
-            className="relative z-[10001] flex size-11 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] shadow-sm transition-all hover:bg-[var(--surface-secondary)] lg:hidden"
+            className="flex size-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] shadow-md transition-all hover:bg-[var(--surface-secondary)] lg:hidden"
           >
             <span className="sr-only">
               {mobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
             </span>
             {mobileMenuOpen ? (
-              <svg
-                viewBox="0 0 24 24"
-                className="size-5.5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                aria-hidden="true"
-              >
+              <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                 <path d="M6 6l12 12M18 6L6 18" />
               </svg>
             ) : (
-              <svg
-                viewBox="0 0 24 24"
-                className="size-5.5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                aria-hidden="true"
-              >
+              <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                 <path d="M4 7h16M4 12h16M4 17h16" />
               </svg>
             )}
@@ -198,23 +184,23 @@ export default function Navbar({ links, settings }: NavbarProps) {
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <nav
           id="mobile-menu"
           aria-label="تنقل الهاتف"
-          className="absolute inset-x-0 top-full z-[10000] border-b border-[var(--border)] bg-[var(--surface)]/95 px-5 pb-6 pt-3 shadow-2xl backdrop-blur-2xl lg:hidden animate-fade-in"
+          className="absolute inset-x-0 top-full border-b border-[var(--border)] bg-[var(--surface)]/95 px-5 pb-7 pt-4 shadow-2xl backdrop-blur-2xl lg:hidden animate-fade-in"
         >
-          <ul className="container-page space-y-1.5 py-2">
+          <ul className="container-page space-y-2">
             {links.map((link) => (
               <li key={`${link.href}-${link.label}`}>
                 <a
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold text-[var(--foreground)] transition-colors hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
+                  className="flex items-center justify-between rounded-2xl bg-[var(--surface-secondary)] px-4 py-3.5 text-sm font-extrabold text-[var(--foreground)] transition-colors hover:bg-[var(--primary)] hover:text-white"
                 >
                   <span>{link.label}</span>
-                  <span className="text-xs opacity-50">←</span>
+                  <span className="text-xs opacity-60">←</span>
                 </a>
               </li>
             ))}
@@ -223,19 +209,10 @@ export default function Navbar({ links, settings }: NavbarProps) {
               <a
                 href={adminHref}
                 onClick={() => setMobileMenuOpen(false)}
-                className="admin-navbar-link flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-xs font-bold"
+                className="flex items-center justify-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-xs font-bold text-[var(--foreground)]"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="size-4 shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  aria-hidden="true"
-                >
-                  <path d="M7 10V8a5 5 0 0 1 10 0v2" />
-                  <rect x="5" y="10" width="14" height="10" rx="2" />
-                  <path d="M12 14v2" />
+                <svg viewBox="0 0 24 24" className="size-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 </svg>
                 <span>{adminLabel}</span>
               </a>
@@ -247,20 +224,13 @@ export default function Navbar({ links, settings }: NavbarProps) {
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
-                className="primary-button flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-center text-sm font-bold"
+                className="btn-primary-luxury flex items-center justify-center gap-2.5 rounded-2xl px-4 py-3.5 text-center text-sm font-black"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="size-4 shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  aria-hidden="true"
-                >
+                <svg viewBox="0 0 24 24" className="size-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
                   <path d="M20 11.5a8.3 8.3 0 0 1-12.3 7.3L4 20l1.3-4.5A8.3 8.3 0 1 1 20 11.5Z" />
                   <path d="M9 10c.5 2 2.5 3.5 4 4" />
                 </svg>
-                <span>سجل الآن عبر واتساب</span>
+                <span>سجّل الآن عبر واتساب</span>
               </a>
             </li>
           </ul>

@@ -1,12 +1,24 @@
 import type { TestimonialContent } from "@/lib/content";
 
+function StarRating() {
+  return (
+    <div className="flex items-center gap-1 text-amber-400">
+      {[1, 2, 3, 4, 5].map((s) => (
+        <svg key={s} viewBox="0 0 24 24" className="size-4 fill-amber-400" aria-hidden="true">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
 export default function Testimonials({
   content,
 }: {
   content: TestimonialContent;
 }) {
   return (
-    <section id="testimonials" className="section-pad relative overflow-hidden bg-[var(--surface-secondary)]/50">
+    <section id="testimonials" className="section-pad relative overflow-hidden bg-[var(--surface)]">
       <div className="container-page">
         {/* Header with Disclaimer */}
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
@@ -14,46 +26,40 @@ export default function Testimonials({
             <span className="eyebrow">{content.eyebrow}</span>
             <h2 className="section-title mt-3">{content.title}</h2>
           </div>
-          <p className="max-w-md text-xs font-medium leading-relaxed text-[var(--muted)]">
+          <p className="max-w-md text-xs font-bold leading-relaxed text-[var(--muted)]">
             {content.disclaimer}
           </p>
         </div>
 
-        {/* Testimonials Grid */}
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
+        {/* Testimonials 3 Column Grid */}
+        <div className="mt-16 grid gap-8 lg:grid-cols-3">
           {content.items.map((item, index) => (
             <figure
               key={`${item.name}-${index}`}
-              className="card-hover-effect flex flex-col justify-between rounded-3xl border border-[var(--border)] bg-[var(--card-surface)] p-7 shadow-sm"
+              className="group flex flex-col justify-between rounded-[2.25rem] border border-[var(--border)] bg-[var(--card-surface)] p-8 shadow-md transition-all duration-300 hover:-translate-y-2 hover:border-[var(--primary)] hover:shadow-2xl"
             >
               <div>
-                {/* Quote Icon */}
-                <div className="text-sky-400">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="size-8"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                  </svg>
+                {/* Rating & Quote Header */}
+                <div className="flex items-center justify-between">
+                  <StarRating />
+                  <span className="text-3xl text-sky-400 font-serif">“</span>
                 </div>
 
-                <blockquote className="mt-5 text-base font-medium leading-relaxed text-[var(--card-text)] sm:text-lg sm:leading-loose">
+                <blockquote className="mt-6 text-base font-medium leading-relaxed text-[var(--card-text)] sm:text-lg sm:leading-loose">
                   «{item.quote}»
                 </blockquote>
               </div>
 
-              {/* Author info */}
-              <figcaption className="mt-8 flex items-center gap-3.5 border-t border-[var(--border)]/70 pt-5">
-                <span className="flex size-11 items-center justify-center rounded-full bg-[var(--dark-panel)] font-bold text-sky-300">
+              {/* Author Footer */}
+              <figcaption className="mt-8 flex items-center gap-4 border-t border-[var(--border)] pt-6">
+                <span className="flex size-12 items-center justify-center rounded-2xl bg-[var(--dark-panel)] font-black text-sky-300 shadow-md">
                   {item.name.charAt(0)}
                 </span>
-                <div>
-                  <strong className="block text-sm font-extrabold text-[var(--card-title)]">
+                <div className="text-right">
+                  <strong className="block text-sm font-black text-[var(--card-title)] sm:text-base">
                     {item.name}
                   </strong>
-                  <small className="block text-xs font-semibold text-[var(--muted)]">
+                  <small className="block text-xs font-bold text-[var(--primary)]">
                     {item.track}
                   </small>
                 </div>

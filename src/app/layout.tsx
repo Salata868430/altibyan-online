@@ -1,14 +1,22 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { IBM_Plex_Sans_Arabic } from "next/font/google";
+import { Alexandria, Readex_Pro } from "next/font/google";
 import "./globals.css";
 
-const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
+const alexandria = Alexandria({
+  subsets: ["arabic", "latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-alexandria",
+});
+
+const readex = Readex_Pro({
   subsets: ["arabic", "latin"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-arabic",
+  variable: "--font-readex",
 });
+
 
 export const viewport: Viewport = {
   themeColor: [
@@ -56,8 +64,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ar" dir="rtl" className={ibmPlexSansArabic.variable} suppressHydrationWarning>
-      <body className="antialiased font-sans selection:bg-sky-500 selection:text-white">
+    <html lang="ar" dir="rtl" className={`${alexandria.variable} ${readex.variable}`} suppressHydrationWarning>
+      <body className="antialiased font-sans selection:bg-cyan-500 selection:text-black">
         {children}
         <Script id="theme-init" strategy="beforeInteractive">
           {`(function(){try{var d=document.documentElement,t=localStorage.getItem('altibyan-theme'),a=localStorage.getItem('altibyan-accent');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';if(!['blue','emerald','violet','amber','cyan'].includes(a))a='blue';d.dataset.theme=t;d.dataset.accent=a;d.style.colorScheme=t}catch(e){}})();`}
@@ -66,4 +74,5 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     </html>
   );
 }
+
 
