@@ -1,14 +1,11 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.altibyan.online";
-  const lastModified = new Date();
-
   return [
     {
-      url: baseUrl,
-      lastModified,
-      changeFrequency: "weekly",
+      url: "https://www.altibyan.online/",
+      lastModified: new Date(),
+      changeFrequency: "daily",
       priority: 1.0,
     },
   ];
