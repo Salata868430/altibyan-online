@@ -62,19 +62,27 @@ export default function Navbar({ links, settings }: NavbarProps) {
       <div className="container-page flex h-[4.75rem] items-center justify-between gap-3 sm:h-20">
         <a
           href="#home"
-          className="flex shrink-0 items-center gap-3"
+          className="flex shrink-0 items-center gap-3 transition-opacity hover:opacity-90"
           aria-label={`${settings.site_name} - الرئيسية`}
         >
           <Image
-            src={settings.logo_url || "/logo/logo-full.svg"}
+            src="/logo/logo-badge.png"
             alt={settings.site_name}
-            width={150}
-            height={42}
-            unoptimized={Boolean(
-              settings.logo_url && settings.logo_url.startsWith("http"),
-            )}
-            className="h-10 w-auto max-w-[9rem] object-contain sm:h-[42px]"
+            width={48}
+            height={48}
+            priority
+            className="h-10 w-10 sm:h-12 sm:w-12 object-contain drop-shadow-sm transition-transform duration-300 hover:scale-105"
           />
+          <div className="flex flex-col">
+            <span className="text-lg font-black leading-tight tracking-tight text-[var(--foreground)] sm:text-xl">
+              {settings.site_name || "التبيان"}
+            </span>
+            {settings.tagline && (
+              <span className="hidden text-[11px] font-medium text-[var(--muted)] sm:block">
+                {settings.tagline}
+              </span>
+            )}
+          </div>
         </a>
 
         <nav aria-label="التنقل الرئيسي" className="hidden lg:block">

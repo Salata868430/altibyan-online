@@ -1,0 +1,21 @@
+{
+  "name": "التبيان | تعلّم القرآن واللغة العربية",
+  "short_name": "التبيان",
+  "description": "منصة تعليمية متخصصة في تعليم القرآن الكريم والتجويد واللغة العربية والعلوم الشرعية.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#061224",
+  "theme_color": "#061224",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
