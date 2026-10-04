@@ -1,8 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { verifyAdminToken } from "./admin-auth";
-import { isSupabaseConfigured } from "./supabase/config";
-import { createClient } from "./supabase/server";
 
 export async function getAdmin() {
   try {
@@ -16,19 +14,6 @@ export async function getAdmin() {
     }
   } catch {
     // Cookie store read error
-  }
-
-  if (isSupabaseConfigured()) {
-    try {
-      const supabase = await createClient();
-      const { data: { user }, error } = await supabase.auth.getUser();
-      if (!error && user) {
-        const { data: role } = await supabase.from("user_roles").select("role").eq("user_id", user.id).single();
-        if (role?.role === "admin") return user;
-      }
-    } catch {
-      // Supabase unavailable or network error
-    }
   }
 
   return null;

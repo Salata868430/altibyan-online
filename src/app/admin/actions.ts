@@ -1,22 +1,22 @@
 "use server";
 
+import fs from "fs";
+import path from "path";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { requireAdmin } from "@/lib/auth";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminToken } from "@/lib/admin-auth";
+import {
+  saveSectionData,
+  readLocalData,
+  saveBooksData,
+  saveCoursesData,
+} from "@/lib/content-store";
+import type { Book, Course } from "@/lib/content";
 
 export type ActionState = { error?: string; success?: string };
 const text = (data: FormData, key: string) => String(data.get(key) ?? "").trim();
-const developmentError = (stage: string, message: string, code?: string, cause?: string) => {
-  if (process.env.NODE_ENV !== "production") {
-    return `${stage}: ${message}${code ? ` (${code})` : ""}${cause ? ` — cause: ${cause}` : ""}`;
-  }
-  return stage === "Auth" ? "تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور." : "تعذر التحقق من صلاحية الإدارة.";
-};
-
-import { createAdminToken } from "@/lib/admin-auth";
 
 export async function login(_: ActionState, formData: FormData): Promise<ActionState> {
   const rawEmail = text(formData, "email");
@@ -48,26 +48,6 @@ export async function login(_: ActionState, formData: FormData): Promise<ActionS
     shouldRedirect = true;
   }
 
-  // 2. Supabase Auth fallback
-  if (!shouldRedirect && isSupabaseConfigured()) {
-    try {
-      const supabase = await createClient();
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (!error && data?.user && data?.session) {
-        const { data: role } = await supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", data.user.id)
-          .maybeSingle();
-        if (role?.role === "admin") {
-          shouldRedirect = true;
-        }
-      }
-    } catch {
-      // Ignore Supabase connection errors
-    }
-  }
-
   if (shouldRedirect) {
     redirect("/admin/dashboard");
   }
@@ -82,27 +62,20 @@ export async function logout() {
   } catch {
     // ignore
   }
-
-  if (isSupabaseConfigured()) {
-    try {
-      const supabase = await createClient();
-      await supabase.auth.signOut();
-    } catch {
-      // ignore
-    }
-  }
   redirect("/admin/login");
 }
 
-const allowedSections = new Set(["hero", "about", "professional_course", "contact", "navigation", "features", "testimonials", "settings"]);
-
-import {
-  saveSectionData,
-  readLocalData,
-  saveBooksData,
-  saveCoursesData,
-} from "@/lib/content-store";
-import type { Book, Course } from "@/lib/content";
+const allowedSections = new Set([
+  "hero",
+  "about",
+  "professional_course",
+  "professional",
+  "contact",
+  "navigation",
+  "features",
+  "testimonials",
+  "settings",
+]);
 
 export async function saveSection(section: string, formData: FormData) {
   await requireAdmin();
@@ -137,6 +110,8 @@ export async function saveBook(formData: FormData) {
     title,
     author: text(formData, "author") || "خالد العبداللّه",
     image_url: text(formData, "image_url") || null,
+    sort_order: sortOrder,
+    is_visible: formData.get("is_visible") === "on",
   };
 
   if (id) {
@@ -188,6 +163,7 @@ export async function saveCourse(formData: FormData) {
     hours: parsedHours,
     status,
     image_url: text(formData, "image_url") || null,
+    sort_order: sortOrder,
   };
 
   if (id) {
@@ -222,23 +198,30 @@ export async function uploadAsset(_: ActionState, formData: FormData): Promise<A
   if (!(file instanceof File) || file.size === 0) return { error: "اختر صورة أولًا." };
   const allowed = new Set(["image/jpeg", "image/png", "image/webp"]);
   if (!allowed.has(file.type)) return { error: "النوع غير مسموح. استخدم JPG أو PNG أو WebP." };
-  if (file.size > 5 * 1024 * 1024) return { error: "حجم الصورة يجب ألا يتجاوز 5MB." };
-  const ext = file.name.split(".").pop()?.toLowerCase() || "bin";
-  const path = `${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}.${ext}`;
-  const supabase = await createClient();
-  const { error } = await supabase.storage.from("site-assets").upload(path, file, { contentType: file.type, upsert: false });
-  if (error) return { error: "تعذر رفع الصورة." };
-  const { data } = supabase.storage.from("site-assets").getPublicUrl(path);
-  return { success: `تم الرفع بنجاح: ${data.publicUrl}` };
+  if (file.size > 10 * 1024 * 1024) return { error: "حجم الصورة يجب ألا يتجاوز 10MB." };
+
+  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+  const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
+  const uploadDir = path.join(process.cwd(), "public", "uploads");
+
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+
+  const bytes = await file.arrayBuffer();
+  fs.writeFileSync(path.join(uploadDir, fileName), Buffer.from(bytes));
+
+  return { success: `تم الرفع بنجاح: /uploads/${fileName}` };
 }
 
 export async function deleteAsset(formData: FormData) {
   await requireAdmin();
-  const path = text(formData, "path");
-  if (!path || path.includes("..") || path.startsWith("/")) throw new Error("Invalid asset path");
-  const supabase = await createClient();
-  const { error } = await supabase.storage.from("site-assets").remove([path]);
-  if (error) redirect("/admin/media?error=delete");
+  const rawPath = text(formData, "path");
+  if (!rawPath) throw new Error("Invalid path");
+  const fullPath = path.join(process.cwd(), "public", rawPath.replace(/^\//, ""));
+  if (fs.existsSync(fullPath)) {
+    fs.unlinkSync(fullPath);
+  }
   revalidatePath("/admin/media");
   redirect("/admin/media?success=deleted");
 }
