@@ -96,16 +96,27 @@ export async function logout() {
 
 const allowedSections = new Set(["hero", "about", "professional_course", "contact", "navigation", "features", "testimonials", "settings"]);
 
+import {
+  saveSectionData,
+  readLocalData,
+  saveBooksData,
+  saveCoursesData,
+} from "@/lib/content-store";
+import type { Book, Course } from "@/lib/content";
+
 export async function saveSection(section: string, formData: FormData) {
   await requireAdmin();
   if (!allowedSections.has(section)) throw new Error("Invalid section");
   const raw = text(formData, "content");
   if (!raw) redirect(`/admin/${section === "settings" ? "settings" : "content"}?error=required`);
   let content: unknown;
-  try { content = JSON.parse(raw); } catch { redirect(`/admin/${section === "settings" ? "settings" : "content"}?error=json`); }
-  const supabase = await createClient();
-  const { error } = await supabase.from("site_content").upsert({ section, content, is_visible: formData.get("is_visible") === "on" });
-  if (error) redirect(`/admin/${section === "settings" ? "settings" : "content"}?error=save`);
+  try {
+    content = JSON.parse(raw);
+  } catch {
+    redirect(`/admin/${section === "settings" ? "settings" : "content"}?error=json`);
+  }
+
+  await saveSectionData(section, content);
   revalidatePath("/");
   redirect(`/admin/${section === "settings" ? "settings" : "content"}?success=1`);
 }
@@ -117,21 +128,41 @@ export async function saveBook(formData: FormData) {
   const id = text(formData, "id");
   const sortOrder = Number(text(formData, "sort_order") || 0);
   if (!Number.isFinite(sortOrder)) redirect("/admin/books?error=invalid");
-  const payload = { title, author: text(formData, "author") || "خالد العبداللّه", image_url: text(formData, "image_url") || null, sort_order: sortOrder, is_visible: formData.get("is_visible") === "on" };
-  const supabase = await createClient();
-  const query = id ? supabase.from("books").update(payload).eq("id", Number(id)) : supabase.from("books").insert(payload);
-  const { error } = await query;
-  if (error) redirect("/admin/books?error=save");
-  revalidatePath("/"); redirect("/admin/books?success=1");
+
+  const localData = readLocalData();
+  const books: Book[] = [...localData.books];
+
+  const bookItem: Book = {
+    id: id ? Number(id) : Date.now(),
+    title,
+    author: text(formData, "author") || "خالد العبداللّه",
+    image_url: text(formData, "image_url") || null,
+  };
+
+  if (id) {
+    const idx = books.findIndex((b) => (b as { id?: number }).id === Number(id));
+    if (idx >= 0) books[idx] = bookItem;
+    else books.push(bookItem);
+  } else {
+    books.push(bookItem);
+  }
+
+  await saveBooksData(books);
+  revalidatePath("/");
+  redirect("/admin/books?success=1");
 }
 
 export async function deleteBook(formData: FormData) {
   await requireAdmin();
   const id = Number(text(formData, "id"));
   if (!Number.isInteger(id)) throw new Error("Invalid book id");
-  const supabase = await createClient();
-  await supabase.from("books").delete().eq("id", id);
-  revalidatePath("/"); redirect("/admin/books?success=1");
+
+  const localData = readLocalData();
+  const books = localData.books.filter((b) => (b as { id?: number }).id !== id);
+  await saveBooksData(books);
+
+  revalidatePath("/");
+  redirect("/admin/books?success=1");
 }
 
 export async function saveCourse(formData: FormData) {
@@ -139,27 +170,50 @@ export async function saveCourse(formData: FormData) {
   const name = text(formData, "name");
   if (!name) redirect("/admin/courses?error=required");
   const id = text(formData, "id");
-  const price = text(formData, "price"); const hours = text(formData, "hours");
+  const price = text(formData, "price");
+  const hours = text(formData, "hours");
   const parsedPrice = price ? Number(price) : null;
   const parsedHours = hours ? Number(hours) : null;
   const sortOrder = Number(text(formData, "sort_order") || 0);
   const status = text(formData, "status") || "available";
-  if ((parsedPrice !== null && (!Number.isFinite(parsedPrice) || parsedPrice < 0)) || (parsedHours !== null && (!Number.isInteger(parsedHours) || parsedHours < 0)) || !Number.isFinite(sortOrder) || !["available", "coming_soon", "hidden"].includes(status)) redirect("/admin/courses?error=invalid");
-  const payload = { name, description: text(formData, "description"), price: parsedPrice, hours: parsedHours, status, image_url: text(formData, "image_url") || null, sort_order: sortOrder };
-  const supabase = await createClient();
-  const query = id ? supabase.from("courses").update(payload).eq("id", Number(id)) : supabase.from("courses").insert(payload);
-  const { error } = await query;
-  if (error) redirect("/admin/courses?error=save");
-  revalidatePath("/"); redirect("/admin/courses?success=1");
+
+  const localData = readLocalData();
+  const courses: Course[] = [...localData.courses];
+
+  const courseItem: Course = {
+    id: id ? Number(id) : Date.now(),
+    name,
+    description: text(formData, "description"),
+    price: parsedPrice,
+    hours: parsedHours,
+    status,
+    image_url: text(formData, "image_url") || null,
+  };
+
+  if (id) {
+    const idx = courses.findIndex((c) => (c as { id?: number }).id === Number(id));
+    if (idx >= 0) courses[idx] = courseItem;
+    else courses.push(courseItem);
+  } else {
+    courses.push(courseItem);
+  }
+
+  await saveCoursesData(courses);
+  revalidatePath("/");
+  redirect("/admin/courses?success=1");
 }
 
 export async function deleteCourse(formData: FormData) {
   await requireAdmin();
   const id = Number(text(formData, "id"));
   if (!Number.isInteger(id)) throw new Error("Invalid course id");
-  const supabase = await createClient();
-  await supabase.from("courses").delete().eq("id", id);
-  revalidatePath("/"); redirect("/admin/courses?success=1");
+
+  const localData = readLocalData();
+  const courses = localData.courses.filter((c) => (c as { id?: number }).id !== id);
+  await saveCoursesData(courses);
+
+  revalidatePath("/");
+  redirect("/admin/courses?success=1");
 }
 
 export async function uploadAsset(_: ActionState, formData: FormData): Promise<ActionState> {

@@ -10,8 +10,8 @@ export type NavigationContent = { navbar: LinkItem[]; footer: LinkItem[] };
 export type SettingsContent = { site_name: string; tagline: string; description: string; whatsapp_url: string; logo_url: string; footer_text: string; sections: Record<string, boolean> };
 export type FeatureContent = { eyebrow: string; title: string; items: string[] };
 export type TestimonialContent = { eyebrow: string; title: string; disclaimer: string; items: { name: string; track: string; quote: string }[] };
-export type Book = { id?: number; title: string; author: string; image_url?: string | null };
-export type Course = { id?: number; name: string; description?: string; price?: number | null; hours?: number | null; status?: string; image_url?: string | null };
+export type Book = { id?: number; title: string; author: string; image_url?: string | null; sort_order?: number; is_visible?: boolean };
+export type Course = { id?: number; name: string; description?: string; price?: number | null; hours?: number | null; status?: string; image_url?: string | null; sort_order?: number };
 
 const defaultLinks: LinkItem[] = [{ label: "الرئيسية", href: "#home" }, { label: "عن الأستاذ", href: "#about" }, { label: "المؤلفات", href: "#publications" }, { label: "الدورة الاحترافية", href: "#professional-course" }, { label: "الدورات", href: "#programs" }, { label: "تواصل معنا", href: "#contact" }];
 export const fallback = {
