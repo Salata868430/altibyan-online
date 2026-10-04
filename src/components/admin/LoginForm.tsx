@@ -23,13 +23,12 @@ export default function LoginForm() {
   return (
     <form action={action} className="space-y-5">
       <label className="admin-label block text-sm font-bold">
-        البريد الإلكتروني أو اسم المستخدم
+        البريد الإلكتروني
         <input
           name="email"
           type="text"
           inputMode="email"
           autoComplete="username"
-          placeholder="admin@altibyan.online أو admin"
           required
           className="admin-input mt-1.5 w-full"
         />
@@ -41,7 +40,6 @@ export default function LoginForm() {
           name="password"
           type="password"
           autoComplete="current-password"
-          placeholder="••••••••••••"
           required
           className="admin-input mt-1.5 w-full"
         />
