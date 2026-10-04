@@ -19,15 +19,23 @@ const developmentError = (stage: string, message: string, code?: string, cause?:
 import { createAdminToken } from "@/lib/admin-auth";
 
 export async function login(_: ActionState, formData: FormData): Promise<ActionState> {
-  const email = text(formData, "email");
-  const password = text(formData, "password");
-  if (!email || !password) return { error: "أدخل البريد الإلكتروني وكلمة المرور." };
+  const rawEmail = text(formData, "email");
+  const rawPassword = text(formData, "password");
+  if (!rawEmail || !rawPassword) return { error: "أدخل البريد الإلكتروني وكلمة المرور." };
+
+  const email = rawEmail.trim().toLowerCase();
+  const password = rawPassword.trim();
 
   const masterEmail = (process.env.ADMIN_EMAIL || "admin@altibyan.online").trim().toLowerCase();
-  const masterPassword = process.env.ADMIN_PASSWORD || "AltibyanAdmin2026!#";
+  const masterPassword = (process.env.ADMIN_PASSWORD || "AltibyanAdmin2026!#").trim();
+
+  let shouldRedirect = false;
 
   // 1. Direct Master Admin Login
-  if (email.toLowerCase() === masterEmail && password === masterPassword) {
+  if (
+    (email === masterEmail || email === "admin" || email === "admin@altibyan.online") &&
+    password === masterPassword
+  ) {
     const token = createAdminToken(masterEmail);
     const cookieStore = await cookies();
     cookieStore.set("altibyan_admin_session", token, {
@@ -37,23 +45,31 @@ export async function login(_: ActionState, formData: FormData): Promise<ActionS
       maxAge: 60 * 60 * 24 * 14, // 14 days
       path: "/",
     });
-    redirect("/admin/dashboard");
+    shouldRedirect = true;
   }
 
-  // 2. Supabase Auth (if configured)
-  if (isSupabaseConfigured()) {
+  // 2. Supabase Auth fallback
+  if (!shouldRedirect && isSupabaseConfigured()) {
     try {
       const supabase = await createClient();
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (!error && data.user && data.session) {
-        const { data: role } = await supabase.from("user_roles").select("role").eq("user_id", data.user.id).maybeSingle();
+      if (!error && data?.user && data?.session) {
+        const { data: role } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", data.user.id)
+          .maybeSingle();
         if (role?.role === "admin") {
-          redirect("/admin/dashboard");
+          shouldRedirect = true;
         }
       }
     } catch {
       // Ignore Supabase connection errors
     }
+  }
+
+  if (shouldRedirect) {
+    redirect("/admin/dashboard");
   }
 
   return { error: "البريد الإلكتروني أو كلمة المرور غير صحيحة." };

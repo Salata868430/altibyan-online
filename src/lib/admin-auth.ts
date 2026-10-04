@@ -1,8 +1,8 @@
 import crypto from "crypto";
 
 export const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || "admin@altibyan.online").trim().toLowerCase();
-export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "AltibyanAdmin2026!#";
-const ADMIN_SECRET = process.env.ADMIN_SECRET || "altibyan_master_admin_jwt_secret_key_2026_quran_app";
+export const ADMIN_PASSWORD = (process.env.ADMIN_PASSWORD || "AltibyanAdmin2026!#").trim();
+const ADMIN_SECRET = (process.env.ADMIN_SECRET || "altibyan_master_admin_jwt_secret_key_2026_quran_app").trim();
 
 export function createAdminToken(email: string): string {
   const expiresAt = Date.now() + 1000 * 60 * 60 * 24 * 14; // 14 days
@@ -20,7 +20,10 @@ export function verifyAdminToken(token: string): { email: string; valid: boolean
     const expiresAt = Number(expiresStr);
     if (!email || !expiresAt || Date.now() > expiresAt) return { email: "", valid: false };
     const expectedSig = crypto.createHmac("sha256", ADMIN_SECRET).update(data).digest("hex");
-    if (crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSig))) {
+    
+    const sigBuf = Buffer.from(signature);
+    const expBuf = Buffer.from(expectedSig);
+    if (sigBuf.length === expBuf.length && crypto.timingSafeEqual(sigBuf, expBuf)) {
       return { email, valid: true };
     }
     return { email: "", valid: false };
